@@ -25,10 +25,10 @@ class SyncSer(threading.Thread):
         self.sshOpt = ssh_opt.SshOpt()
 
     def run(self):
-        self.__remote_compare()
+        self.__update_fpaths("keep")
         while True:
             time.sleep(0.5)
-            is_ok = self.__update_fpaths()
+            is_ok = self.__update_fpaths("chg")
             if not is_ok:
                 continue
             chg_count = self.__chk_file_chg()
@@ -36,17 +36,12 @@ class SyncSer(threading.Thread):
                 continue
             self.__upload_chg_files()
 
-    # 与远端目录对比
-    def __remote_compare(self):
-        #TODO
-        pass
-
     # 更新本地文件目录
-    def __update_fpaths(self):
+    def __update_fpaths(self, new_path_status):
         files = fs_opt.get_files(conf.local_dir)
         for fpath in files:
             if self.file_info_table.get(fpath, None) == None:
-                self.file_info_table[fpath] = [0, "chg"]
+                self.file_info_table[fpath] = [0, new_path_status]
         return True
 
     #--检查文件变化
@@ -56,8 +51,9 @@ class SyncSer(threading.Thread):
             if os.path.exists(fpath):
                 file_curr_tm = os.path.getmtime(fpath)
                 if file_curr_tm !=  infos[0]:
+                    if infos[0] != 0:
+                        infos[1] = "chg"
                     infos[0] = file_curr_tm
-                    infos[1] = "chg"
             else:
                 infos[1] = "del"
             if infos[1] != "keep":
