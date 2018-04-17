@@ -1,11 +1,12 @@
 # -*- coding:utf-8 -*-
 
-local_dir = "D:/ssync_test"
-remote_host = "192.168.1.100"
+local_dir = "D:/my_room/rsync_test"
+remote_host = "192.168.11.249"
 remote_port = 22
 remote_dir = "/home/yxy/ssync_test"
 remote_user = "yxy"
-remote_passwd = "123456"
+remote_passwd = "666666"
+ignore_paths_exp = r'(ignore_path)'
 
 import logging
 logging.basicConfig(

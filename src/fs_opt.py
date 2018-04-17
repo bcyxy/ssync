@@ -4,14 +4,15 @@ import os
 import sys
 
 # 递归获取目录下的所有的文件
-def get_files(dir_name):
-    file_list = []
-    if os.path.isfile(dir_name):
-        file_list.append(dir_name)
-        return file_list
+def get_paths(path):
+    path_list = []
+    if os.path.isfile(path):
+        path_list.append((path, "f"))
+        return path_list
+    path_list.append((path, "d"))
 
-    for f_d in os.listdir(dir_name):
-        new_dir=os.path.join(dir_name,f_d)
-        file_list += get_files(new_dir)
+    for sub_path in os.listdir(path):
+        new_path = os.path.join(path, sub_path).replace("\\", "/")
+        path_list += get_paths(new_path)
 
-    return file_list
+    return path_list
