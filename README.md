@@ -7,7 +7,6 @@ Automatic, fast upload local changed files in specified folder to remote host.
 - 本地主机可以是windows、Linux系统，远端的主机必须是Linux系统；
 
 ## 功能
-- 对比本地和远端的文件，如果有差异，将本地的文件更新到远端；
 - 本地文件有变化，自动更新到远程服务器；
 
 ## 依赖
