@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-local_dir = "D:/my_room/rsync_test"
+local_dir = "D:/my_room/ssync_test"
 remote_host = "192.168.11.249"
 remote_port = 22
 remote_dir = "/home/yxy/ssync_test"

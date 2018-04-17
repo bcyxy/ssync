@@ -49,7 +49,7 @@ class SyncSer(threading.Thread):
             return False
 
         for (abs_path, path_type) in path_list:
-            rel_path = os.path.relpath(abs_path, conf.local_dir)
+            rel_path = os.path.relpath(abs_path, conf.local_dir).replace("\\", "/")
             if rel_path == ".":
                 continue
             re_rst = self.ign_path_reg.findall(rel_path)
@@ -63,7 +63,7 @@ class SyncSer(threading.Thread):
     def __chk_file_chg(self):
         chg_counter = 0
         for (rel_path, infos) in self.file_info_table.items():
-            abs_path = os.path.join(conf.local_dir, rel_path)
+            abs_path = os.path.join(conf.local_dir, rel_path).replace("\\", "/")
             if os.path.exists(abs_path):
                 file_curr_tm = os.path.getmtime(abs_path)
                 if file_curr_tm !=  infos[1]:
@@ -89,11 +89,11 @@ class SyncSer(threading.Thread):
             if infos[2] == "keep":
                 continue
             
-            local_path = os.path.join(conf.local_dir, rel_path)
-            remote_path = os.path.join(conf.remote_dir, rel_path)
+            local_path = os.path.join(conf.local_dir, rel_path).replace("\\", "/")
+            remote_path = os.path.join(conf.remote_dir, rel_path).replace("\\", "/")
             if infos[2] == "chg":
                 if infos[0] == "f":
-                    r_fdir = os.path.dirname(remote_path)
+                    r_fdir = os.path.dirname(remote_path).replace("\\", "/")
                     logging.info("Upload file '%s' begin ..." %rel_path)
                     if self.sshOpt.put(local_path, r_fdir):
                         logging.info("Upload file '%s' success." %rel_path)
